@@ -13,9 +13,9 @@ stages:
 .common_build_template: &common_build_ref
   image: node:11
   before_script:
-    - npm install -g bower grunt
-    - npm install
-    - grunt
+    - nnpm install jsql-cli && \
+    - npm install && \
+    - npm run build
   artifacts:
     paths:
       - dist/
