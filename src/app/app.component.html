@@ -10,7 +10,7 @@
     <tr *ngFor="let result of getResults(results)">
       <td>{{result.caseName}}</td>
       <td>{{result.duration}}</td>
-      <td class="{{result.status.toLowerCase()}}">{{result.status}}</td>
+      <td class="{{result?.status?.toLowerCase()}}">{{result.status}}</td>
     </tr>
     </tbody>
   </table>

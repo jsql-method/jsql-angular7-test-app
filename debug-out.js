@@ -1,3 +1,70 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+const routes: Routes = [];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+import { Component } from '@angular/core';
+import {CasesService} from "./cases.service";
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+
+  results = [];
+
+  constructor(private casesService: CasesService) {
+
+     casesService.init(this);
+     casesService[casesService.cases.names['caseName1']]();
+
+  }
+
+  getResults(map){
+    return Array.from(map.values());
+  }
+
+}
+
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+
+import {JsqlModule} from "jsql-angular7";
+import {JsqlConfig} from "jsql-angular7/src/modules/jsql.module";
+import {environment} from "../environments/environment";
+import {CasesService} from "./cases.service";
+
+const jsqlConfig: JsqlConfig = {
+  host: environment.host,
+  apiKey: environment.apiKey,
+  devKey: environment.devKey
+} as JsqlConfig;
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    JsqlModule.forRoot(jsqlConfig)
+  ],
+  providers: [CasesService],
+  bootstrap: [AppComponent]
+})
+export class AppModule {
+
+}
 import {JsqlService} from "jsql-angular7";
 import {Injectable} from "@angular/core";
 

@@ -3,11 +3,15 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build --environment=production",
+    "start": "npm run serve",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "serve": "concurrently --kill-others \"ng serve\" \"npm run jsql-watch\"",
+    "jsql-watch": "jsql-cli --debug --apiKey=dawid.senko@jsql.it --input=/src/app/**/*.* --extensions=ts --devKeyFileName=test-key.key --env=local --watch",
+    "jsql-build": "jsql-cli --debug --apiKey=dawid.senko@jsql.it --output=/dist/js/app.js --input=/dist/js/app.js --devKeyFileName=test-key.key --env=test",
+    "build": "ng build --environment=production && npm run jsql-build",
+    "ng-serve": "ng serve"
   },
   "private": true,
   "dependencies": {
@@ -30,10 +34,11 @@
     "@angular/cli": "~7.0.3",
     "@angular/compiler-cli": "~7.0.0",
     "@angular/language-service": "~7.0.0",
-    "@types/node": "~8.9.4",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "~8.9.4",
     "codelyzer": "~4.5.0",
+    "concurrently": "^4.1.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~3.0.0",

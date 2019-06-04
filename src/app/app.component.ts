@@ -12,13 +12,13 @@ export class AppComponent {
 
   constructor(private casesService: CasesService) {
 
-    // casesService.init(this);
-    // casesService[casesService.cases.names['caseName1']]();
+     casesService.init(this);
+     casesService[casesService.cases.names['caseName1']]();
 
   }
 
   getResults(map){
-    return Array.from(map.keys());
+    return Array.from(map.values());
   }
 
 }
