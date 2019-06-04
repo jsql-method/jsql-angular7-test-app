@@ -13,7 +13,7 @@ stages:
 .common_build_template: &common_build_ref
   image: node:11
   before_script:
-    - nnpm install jsql-cli && \
+    - npm install jsql-cli && \
     - npm install && \
     - npm run build
   artifacts:
