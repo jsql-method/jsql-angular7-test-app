@@ -13,9 +13,9 @@ stages:
 .common_build_template: &common_build_ref
   image: node:11
   before_script:
-    - npm install
-    - npm install -g @angular/cli
-    - ng build
+    - nnpm install jsql-cli && \
+    - npm install && \
+    - npm run build
   artifacts:
     paths:
       - dist/
@@ -46,10 +46,12 @@ stages:
      - echo "SERVICE_NAME=$SERVICE_NAME"
      - echo "IMAGE=${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}"
      - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-     - docker -H ${ENVIRONMENT_HOST} pull $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
      - docker -H ${ENVIRONMENT_HOST} service scale $SERVICE_NAME=0
-     - docker -H ${ENVIRONMENT_HOST} service update --force $SERVICE_NAME
+     - docker -H ${ENVIRONMENT_HOST} rmi -f $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+     - docker -H ${ENVIRONMENT_HOST} pull $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+     - docker -H ${ENVIRONMENT_HOST} service update --force $SERVICE_NAME --image $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
      - docker -H ${ENVIRONMENT_HOST} service scale $SERVICE_NAME=1
+
 
 
 build:
@@ -87,7 +89,7 @@ deploy test:
     ENVIRONMENT_HOST: 172.32.1.31
   environment:
     name: test
-    url: https://test-angular1.jsql.it
+    url: https://test-angular7.jsql.it
   only:
     refs:
       - test

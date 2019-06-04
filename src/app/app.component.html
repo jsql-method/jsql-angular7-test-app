@@ -1,3 +1,17 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<h1>Welcome to {{ title }}!</h1>
-<p style="font-size: 28px;"><b>Result test: {{ test }}</b></p>
+<div id="app">
+  <p><span>JSQL Angular 4 (4.4.7)</span> - unit testing</p>
+  <table>
+    <thead>
+    <th>Case</th>
+    <th>Duration (ms)</th>
+    <th>Status</th>
+    </thead>
+    <tbody>
+    <tr *ngFor="let result of getResults(results)">
+      <td>{{result.caseName}}</td>
+      <td>{{result.duration}}</td>
+      <td class="{{result?.status?.toLowerCase()}}">{{result.status}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
