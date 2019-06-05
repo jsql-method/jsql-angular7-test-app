@@ -9,7 +9,7 @@
     "e2e": "ng e2e",
     "serve": "concurrently --kill-others \"ng serve\" \"npm run jsql-watch\"",
     "jsql-watch": "jsql-cli --debug --apiKey=dawid.senko@jsql.it --input=/src/app/**/*.* --extensions=ts --devKeyFileName=test-key.key --env=local --watch",
-    "jsql-build": "jsql-cli --debug --apiKey=dawid.senko@jsql.it --output=/dist/js/app.js --input=/dist/js/app.js --devKeyFileName=test-key.key --env=test",
+    "jsql-build": "jsql-cli --debug --apiKey=dawid.senko@jsql.it --output=/dist/main[...].js --input=/dist/main[...].js --devKeyFileName=test-key.key --env=test",
     "build": "ng build --prod && npm run jsql-build",
     "ng-serve": "ng serve"
   },
