@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   host: 'http://localhost:9192',
-  apiKey: 'dawid.senko@jsql.it',
+  apiKey: 'dawid.senko-angular7@jsql.it',
   devKey: 'dawid.senko@jsql.it'
 };
 
