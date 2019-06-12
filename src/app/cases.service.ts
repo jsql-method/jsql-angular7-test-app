@@ -207,6 +207,8 @@ export class CasesService {
           .observe()
           .subscribe(
             result => {
+              console.log('res');
+              console.log(result);
               console.log(self.cases.names['caseName5'], result);
 
               if (result instanceof Array) {
@@ -446,7 +448,6 @@ export class CasesService {
         console.error(error);
         resultCallback('FAILED');
       }
-
 
     };
 
