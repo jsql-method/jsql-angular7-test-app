@@ -268,20 +268,19 @@ export class CasesService {
 
       try {
 
+
         self.jsqlService.selectOne("@sql select * from person where age > :ageMin and age < :ageMax limit 1")
           .param('ageMin', 30)
           .param('ageMax', 50)
           .observe()
           .subscribe(
             result => {
-              console.log('res');
-              console.log(result);
               console.log(self.cases.names['caseName5'], result);
 
               if (result instanceof Array) {
-                resultCallback('SUCCESS');
-              } else {
                 resultCallback('FAILED');
+              } else {
+                resultCallback('SUCCESS');
               }
             },
             error => {
@@ -496,13 +495,13 @@ export class CasesService {
             result => {
               console.log(self.cases.names['caseName10'], result);
 
-              transaction.commit()
-                .observe()
-                .subscribe(
-                  result => {
-                    console.log(self.cases.names['caseName10'], result);
-                    resultCallback('SUCCESS');
-                  });
+              transaction.commit().observe();
+
+                // .subscribe(
+                //   result => {
+                //     console.log(self.cases.names['caseName10'], result);
+                //     resultCallback('SUCCESS');
+                //   });
 
             },
             error => {
