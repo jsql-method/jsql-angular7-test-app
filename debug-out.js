@@ -106,7 +106,7 @@ export class CasesService {
       };
       try {
 
-        self.jsqlService.insert("insert into person (id, name, surname, age) values (nextval('person_id_seq'), :name, :surname, :age)")
+        self.jsqlService.insert("@sql insert into person (id, name, surname, age) values (nextval('person_id_seq'), :name, :surname, :age)")
           .params({
             name: 'Mirek',
             surname: 'Wołyński',
@@ -149,7 +149,7 @@ export class CasesService {
 
       try {
 
-        self.jsqlService.insert("insert into car (id, price, year, model) values (nextval('car_id_seq'), ?, ?, ?)")
+        self.jsqlService.insert("@sql insert into car (id, price, year, model) values (nextval('car_id_seq'), ?, ?, ?)")
           .params([19.500, 2000, 'Audi A3'])
           .observe()
           .subscribe(
@@ -188,7 +188,7 @@ export class CasesService {
 
       try {
 
-        self.jsqlService.update("update person set salary = 4000 where age > :age")
+        self.jsqlService.update("@sql update person set salary = 4000 where age > :age")
           .param('age', 30)
           .observe()
           .subscribe(
@@ -229,7 +229,7 @@ export class CasesService {
 
         // self.jsqlService.update("update car set created_at = ?")
         //     .params([ new Date().getTime() ])
-        self.jsqlService.update("update car set type = ?")
+        self.jsqlService.update("@sql update car set type = ?")
           .params(['osobowy'])
           .observe()
           .subscribe(
@@ -268,7 +268,8 @@ export class CasesService {
 
       try {
 
-        self.jsqlService.selectOne("select * from person where age > :ageMin and age < :ageMax limit 1")
+
+        self.jsqlService.selectOne("@sql select * from person where age > :ageMin and age < :ageMax limit 1")
           .param('ageMin', 30)
           .param('ageMax', 50)
           .observe()
@@ -277,9 +278,9 @@ export class CasesService {
               console.log(self.cases.names['caseName5'], result);
 
               if (result instanceof Array) {
-                resultCallback('SUCCESS');
-              } else {
                 resultCallback('FAILED');
+              } else {
+                resultCallback('SUCCESS');
               }
             },
             error => {
@@ -313,7 +314,7 @@ export class CasesService {
 
       try {
 
-        self.jsqlService.select("select id, price from car")
+        self.jsqlService.select("@sql select id, price from car")
           .observe()
           .subscribe(
             result => {
@@ -358,7 +359,7 @@ export class CasesService {
 
       try {
 
-        self.jsqlService.remove("delete from person where age > 30")
+        self.jsqlService.remove("@sql delete from person where age > 30")
           .observe()
           .subscribe(
             result => {
@@ -395,7 +396,7 @@ export class CasesService {
 
       try {
 
-        self.jsqlService.remove("delete from car where price <> :price")
+        self.jsqlService.remove("@sql delete from car where price <> :price")
           .params({
             price: 10.000
           })
@@ -438,7 +439,7 @@ export class CasesService {
 
         let transaction = self.jsqlService.tx();
 
-        transaction.insert("insert into car (id, price, year, model) values (nextval('car_id_seq'), ?, ?, ?)")
+        transaction.insert("@sql insert into car (id, price, year, model) values (nextval('car_id_seq'), ?, ?, ?)")
           .params([180000, 2018, 'Audi A6'])
           .observe()
           .subscribe(
@@ -487,20 +488,20 @@ export class CasesService {
 
         let transaction = self.jsqlService.tx();
 
-        transaction.insert("insert into car (id, price, year, model) values (nextval('car_id_seq'), ?, ?, ?)")
+        transaction.insert("@sql insert into car (id, price, year, model) values (nextval('car_id_seq'), ?, ?, ?)")
           .params([200000, 2019, 'Volkswagen Variant'])
           .observe()
           .subscribe(
             result => {
               console.log(self.cases.names['caseName10'], result);
 
-              transaction.commit()
-                .observe()
-                .subscribe(
-                  result => {
-                    console.log(self.cases.names['caseName10'], result);
-                    resultCallback('SUCCESS');
-                  });
+              transaction.commit().observe();
+
+                // .subscribe(
+                //   result => {
+                //     console.log(self.cases.names['caseName10'], result);
+                //     resultCallback('SUCCESS');
+                //   });
 
             },
             error => {
@@ -513,7 +514,6 @@ export class CasesService {
         console.error(error);
         resultCallback('FAILED');
       }
-
 
     };
 
